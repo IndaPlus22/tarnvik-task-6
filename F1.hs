@@ -7,26 +7,22 @@ fib 0 = 0
 fib 1 = 1
 fib n = fib(n-1) + fib (n-2)
 
-vokaler = "aeyuio"
---vokaler = ['a', 'e', 'y', 'u', 'i', 'o']
+isConsonant x = not ((elem x)"aeyuio")
 
 rovarsprak :: String -> String
-rovarsprak s = concat( map ( addo ) s)
+rovarsprak [] = []
+rovarsprak (x:xs)
+    | isConsonant x = x : 'o' : x : rovarsprak xs
+    | otherwise = x : rovarsprak xs
 
-addo :: Char -> String
-addo c 
-    | not ((elem c) vokaler) = c : 'o' : c : []
-    | otherwise            = c : []
-
---rovarsprak s = concat([c : 'o' : c : []| c <- s, not ((elem c) vokaler)])
-
+--I know its ugly but atleast it works 
 karpsravor :: String -> String
-karpsravor s = s
-
-removeRovarsprak ch st = [c | c <- st, (ch : 'o' : ch : []) `isInfixOf` st]
-
-isRovarsprak :: Char -> String -> Bool
-isRovarsprak c s = (c : 'o' : c : []) `isInfixOf` s
+karpsravor [] = []
+karpsravor (x:y:z:xs)
+    | isConsonant x = x : karpsravor xs
+    | otherwise = x : karpsravor (y:z:xs)
+karpsravor (x:_:xs) = x : karpsravor xs
+karpsravor (x:xs) = x : karpsravor xs
 
 medellangd :: String -> Double
 medellangd s = 1.0
